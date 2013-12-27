@@ -1,0 +1,41 @@
+<!DOCTYPE HTML> 
+<html lang="en"> 
+<head>
+	<title>Super Simple PeerJS Demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	<meta http-equiv="Content-Language" content="en-us"> 
+	<script type="text/javascript" src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+	<script>
+	var apiKey = '################';
+	var thisPeerId = null;
+	
+	function definePeer(peerId)
+	{
+		thisPeerId = peerId;
+		var peer = new Peer(peerId, {key: apiKey});
+		//on a connection
+		peer.on('connection', function(conn) {
+			//define data handling function
+			conn.on('data', function(data){
+				console.log(data);
+			});
+		});
+	}
+	
+	function connect(otherPeerId)
+	{
+		var peer = new Peer({key: apiKey});
+		var conn = peer.connect(otherPeerId);
+		//open a connection
+		conn.on('open', function(){
+			//send an intro message
+			conn.send("Connection established from " + thisPeerId);
+		});
+		//return the connection for use later
+		return conn;
+	}
+	
+	</script>
+</head> 
+<body>See README.md for instructions on using the super simple PeerJS demo.</body>
+</html>
